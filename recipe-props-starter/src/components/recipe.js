@@ -8,12 +8,12 @@ class Recipe extends Component {
              return <li key={index}>{ing}</li>;
           });
           return (
-              <div classname="recipe-card">
-                <div classname="recipe-card-img">
+              <div className="recipe-card">
+                <div className="recipe-card-image">
                   <img src={img} alt={title}></img>   
                 </div>
-                <div classname="recipe-card-content">
-                    <h3 classname="recipe-title"> Recipe {title}</h3>
+                <div className="recipe-card-content">
+                    <h3 className="recipe-title"> Recipe {title}</h3>
                     <h4>Ingredients:</h4>
                     <ul>
                       {ingredients}
