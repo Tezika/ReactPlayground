@@ -1,7 +1,12 @@
 import React, {Component} from 'react';
-import './recipe.css'
+import PropTypes from 'prop-types';
+import './recipe.css';
 
 class Recipe extends Component {
+      static propTypes = {
+        ingredients: PropTypes.arrayOf(PropTypes.string).isRequired
+      }
+      
       render(){
           const {title, img, instructions} = this.props;
           const ingredients = this.props.ingredients.map((ing, index) => {
@@ -13,7 +18,7 @@ class Recipe extends Component {
                   <img src={img} alt={title}></img>   
                 </div>
                 <div className="recipe-card-content">
-                    <h3 className="recipe-title"> Recipe {title}</h3>
+                    <h3 className="recipe-title">{title}</h3>
                     <h4>Ingredients:</h4>
                     <ul>
                       {ingredients}
