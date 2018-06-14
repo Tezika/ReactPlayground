@@ -82,7 +82,7 @@ class App extends Component {
     const hobbyIndex = Math.floor(
       Math.random() *
       this.state.instructors[instIndex].length
-    )
+    );
 
     const copyInsts = this.state.instructors.map((inst, i) => {
       if (i === instIndex) {
@@ -96,10 +96,6 @@ class App extends Component {
     this.setState({
       instructors: copyInsts
     });
-  }
-
-  getArrayRandomItem(items) {
-    return items[Math.floor(Math.random() * items.length)];
   }
 }
 
