@@ -1,0 +1,10 @@
+.App ul{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+li {
+   width: 300px;
+   float: left;
+}
