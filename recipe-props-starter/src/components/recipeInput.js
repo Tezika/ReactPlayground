@@ -39,7 +39,6 @@ class RecipeInput extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        console.log(this.props.onSave);
         this.props.onSave({ ...this.state });
         this.setState({
             title: '',
@@ -47,6 +46,7 @@ class RecipeInput extends Component {
             ingredients: [''],
             img: ''
         });
+        this.props.onClose();
     }
 
     handleNewIngredient(e) {
