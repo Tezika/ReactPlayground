@@ -29,19 +29,34 @@ class RecipeInput extends Component {
         });
     }
 
-    handleChangeIng(e) {}
+    handleChangeIng(e) {
+        const index = Number(e.target.name.split('-')[1]);
+        const ingredients = this.state.ingredients.map((ing, i) => (
+            i === index ? e.target.value : ing
+        ));
+        this.setState({ ingredients });
+    }
 
     handleSubmit(e) {
-
+        e.preventDefault();
+        console.log(this.props.onSave);
+        this.props.onSave({ ...this.state });
+        this.setState({
+            title: '',
+            instructions: "",
+            ingredients: [''],
+            img: ''
+        });
     }
 
     handleNewIngredient(e) {
-
+        const { ingredients } = this.state;
+        this.setState({ ingredients: [...ingredients, ''] });
     }
 
     render() {
         const { title, instructions, img, ingredients } = this.state;
-        const {onClose} = this.props;
+        const { onClose } = this.props;
         let inputs = ingredients.map((ing, i) => (
             <div 
                 className = "recipe-form-line"
@@ -59,11 +74,11 @@ class RecipeInput extends Component {
                 />
             </label>
             </div>
-
         ));
+
         return (
             <div className='recipe-form-container'>
-                <form className='recipe-form' onSumbit={this.handleSubmit}>
+                <form className='recipe-form' onSubmit={this.handleSubmit}>
                     <button
                         type="button"
                         className="close-button"
@@ -101,9 +116,7 @@ class RecipeInput extends Component {
                             value={instructions}
                             onChange={this.handleInputChange}
                         />
-                        
                         {inputs}
-                        
                         <button
                             type="button"
                             onClick={this.handleNewIngredient}
@@ -126,7 +139,7 @@ class RecipeInput extends Component {
                         </div>
                         <button
                             type="submit"
-                            classname="buttons"
+                            className="buttons"
                             style={{alignSelf:'flex-end',marginRight:0}}
                         >
                         SAVE

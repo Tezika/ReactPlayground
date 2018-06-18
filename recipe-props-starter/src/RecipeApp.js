@@ -30,15 +30,28 @@ class RecipeApp extends Component {
           img: "https://farm3.staticflickr.com/2847/12565663524_f4aa12a246.jpg"
         }
       ],
-      nexRecipeId: 3
-    }
+      nextRecipeId: 4
+    };
+    
+    this.handleSave  = this.handleSave.bind(this);
+  }
+  
+  handleSave(recipe){
+    console.log("The app handles the operation of saving successfully.");
+    this.setState((prevState, props) => {
+      const newRecipe = {...recipe, id: this.state.nextRecipeId};
+      return {
+        nextRecipeId: this.state.nextRecipeId + 1 ,
+        recipes: [...this.state.recipes, newRecipe]
+      }
+    });
   }
 
   render() {
     return (
       <div className="App">
           <Nav />
-          <RecipeInput />
+          <RecipeInput  onSave={this.handleSave}/>
           <RecipeList recipes={this.state.recipes} />
       </div>
     );
