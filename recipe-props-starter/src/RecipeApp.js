@@ -37,6 +37,12 @@ class RecipeApp extends Component {
     this.handleSave = this.handleSave.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleNewRecipe = this.handleNewRecipe.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+  }
+
+  handleDelete(id) {
+    const recipes = this.state.recipes.filter(r => r.id !== id);
+    this.setState({ recipes });
   }
 
   handleSave(recipe) {
@@ -62,7 +68,7 @@ class RecipeApp extends Component {
       <div className="App">
           <Nav onNewRecipe={this.handleNewRecipe}/>
           { this.state.showForm ? <RecipeInput onSave={this.handleSave} onClose={this.handleClose}/> : null }
-          <RecipeList recipes={this.state.recipes} />
+          <RecipeList recipes={this.state.recipes} onDelete={this.handleDelete} />
       </div>
     );
   }
