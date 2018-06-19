@@ -1,20 +1,41 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Nav from './components/nav'
+
+const Num_Card = 16;
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    const cards = Array.apply(null, Array(Num_Card)).map((c, i) => ({
+      id: i,
+      state: 0,
+      color: 'grey'
+    }));
+    this.state = { cards };
+
+    this.handleClicked = this.handleClicked.bind(this);
+    this.handleNewGame = this.handleNewGame.bind(this);
+  }
+
+  handleClicked(id) {
+
+  }
+
+  handleNewGame() {
+    this.reset();
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <Nav onNewGame={this.handleNewGame}/>
       </div>
     );
+  }
+
+  reset() {
+    alert('The game has been reset now!');
   }
 }
 
