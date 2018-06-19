@@ -5,7 +5,6 @@ import CardBoard from './components/cardBoard';
 import Helper from './globalHelper';
 
 class App extends Component {
-
   constructor(props) {
     super(props);
 
@@ -19,7 +18,6 @@ class App extends Component {
   }
 
   handleClicked(id) {
-    console.log("The app will handle the click event.");
     //retrive card
     let card = this.state.cards.find((c) => (id === c.id));
 
@@ -53,7 +51,9 @@ class App extends Component {
   }
 
   handleNewGame() {
-    this.reset();
+    this.setState({
+      cards: this.generateCards()
+    });
   }
 
   render() {
@@ -65,15 +65,9 @@ class App extends Component {
     );
   }
 
-  reset() {
-    //reset the cards state
-    this.setState({
-      cards: this.generateCards()
-    });
-  }
 
   generateCards() {
-    
+
     //pickup couple of random colors from default props.
     let colors = Array.apply(null, Array(Math.floor(Helper.Num_Card / 2)))
       .map((c, i) => ({
@@ -87,6 +81,7 @@ class App extends Component {
       const randIdx = Math.floor(Math.random() * colors.length);
       let colorObj = colors[randIdx];
       colorObj.counter--;
+
       //Remove the unuseable color
       if (colorObj.counter === 0) {
         colors.splice(randIdx, 1);

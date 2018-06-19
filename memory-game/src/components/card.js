@@ -3,6 +3,11 @@ import PropTypes from 'prop-types';
 import './card.css';
 import Helper from '../globalHelper'
 
+
+// 0 - hide
+// 1 - fade
+// 2 - display
+
 class Card extends Component {
     static defaultProps = {
         state: 0,
@@ -19,24 +24,13 @@ class Card extends Component {
 
     render() {
         const { id, color, state, onClick } = this.props;
-        const cardColor = state === 0 ? Helper.Hidden_Color : color
+        const cardColor = state === 0 ? Helper.Hidden_Color : color;
         return (
-            <div style={{
-                width:'128px', 
-                height:'128px', 
-                margin: '16px', 
-                backgroundColor: cardColor
+            <div className="card-container" style={{
+                    backgroundColor: cardColor
             }} onClick={() => state === 0? onClick(id):null}>
             </div>
         );
-    }
-
-    fadeIn() {
-
-    }
-
-    fadeOut() {
-
     }
 }
 
