@@ -98,13 +98,14 @@ class RecipeInput extends Component {
                             autoComplete="off"
                             onChange={this.handleInputChange}
                         />
+                    </div>
                         <label
                             htmlFor='recipe-instructions-input'
                             style={{marginTop:'5px'}}
                         >
                             Instructions
                         </label>
-                    </div>
+
                         <textarea
                             key='instructions'
                             id='recipe-instructions-input'
