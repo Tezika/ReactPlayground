@@ -66,13 +66,14 @@ class App extends Component {
   }
 
   reset() {
-    alert('The game has been reset now!');
     //reset the cards state
-    //reset the card-board
+    this.setState({
+      cards: this.generateCards()
+    });
   }
 
   generateCards() {
-
+    
     //pickup couple of random colors from default props.
     let colors = Array.apply(null, Array(Math.floor(Helper.Num_Card / 2)))
       .map((c, i) => ({
