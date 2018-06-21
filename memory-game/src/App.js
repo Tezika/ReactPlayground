@@ -4,6 +4,7 @@ import Nav from './components/nav';
 import Helper from './globalHelper';
 import Card from './components/card';
 
+//The enum for cards' states
 const CardState = {
   HIDING: 0,
   SHOWING: 1,
@@ -14,44 +15,60 @@ class App extends Component {
   constructor(props) {
     super(props);
     const cards = this.generateCards();
-    this.state = { cards };
-    this.previousCard = null;
+    this.state = { cards, noClick: false };
+    this.cacheCard = null;
+    this.noClick = false;
     this.handleClick = this.handleClick.bind(this);
     this.handleNewGame = this.handleNewGame.bind(this);
   }
 
   handleClick(id) {
-    console.log(id);
-    //retrive card
+    if (this.noClick) {
+      return;
+    }
+    //retrive the card
     let card = this.state.cards.find((c) => (id === c.id));
 
-    //if card is hidden now
-    if (this.previousCard === null) {
-      //open the card and record the previous card
-      card.state = CardState.SHOWING;
-      this.previousCard = card;
+    //the card's setup function.
+    const updateCard = (card) => {
       const cards = this.state.cards.map((c, i) => (
         c.id === card.id ? card : c
       ));
       this.setState({ cards });
+    };
+
+    //if card is hidden now
+    if (this.cacheCard === null) {
+      //open the card and record the previous card
+      card.state = CardState.SHOWING;
+      this.cacheCard = card;
+      updateCard(card);
     }
     else {
-      let stateCard = null;
-      //open the card and check the state
-      if (card.color === this.previousCard.color) {
-        card.state = CardState.SHOWING;
-        stateCard = card;
+      //open the card and check whether if it's color match the previous card.
+      if (card.color === this.cacheCard.color) {
+        //Match
+        card.state = CardState.MATCHING;
+        this.cacheCard.state = CardState.MATCHING;
+        updateCard(card);
+        updateCard(this.cacheCard);
+        this.cacheCard = null;
       }
       else {
-        this.previousCard.state = CardState.HIDING;
-        stateCard = this.previousCard;
+        //Doesn't match
+        card.state = CardState.SHOWING;
+        updateCard(card);
+        this.noClick = true;
+        //Set up a time to hide the two cards after 1.3 seconds.
+        setTimeout(() => {
+          this.noClick = false;
+          card.state = CardState.HIDING;
+          this.cacheCard.state = CardState.HIDING;
+          updateCard(card);
+          updateCard(this.cacheCard);
+          this.cacheCard = null;
+        }, 1300);
       }
-
-      const cards = this.state.cards.map((c, i) => (
-        c.id === stateCard.id ? stateCard : c
-      ));
-      this.setState({ cards });
-      this.previousCard = null;
     }
   }
 
@@ -104,7 +121,6 @@ class App extends Component {
         color: colorObj.color
       });
     }
-    console.log(cards);
     return cards;
   }
 }
