@@ -1,34 +1,28 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './card.css';
-import Helper from '../globalHelper'
-
-
-// 0 - hide
-// 1 - fade
-// 2 - display
+import Helper from '../globalHelper';
 
 class Card extends Component {
     static defaultProps = {
-        state: 0,
+        showing: false,
         id: 0,
         color: 'grey'
     };
 
     static propTypes = {
         id: PropTypes.number.isRequired,
-        state: PropTypes.number.isRequired,
+        showing: PropTypes.bool.isRequired,
         color: PropTypes.string.isRequired,
         onClick: PropTypes.func.isRequired,
     };
 
     render() {
-        const { id, color, state, onClick } = this.props;
-        const cardColor = state === 0 ? Helper.Hidden_Color : color;
+        const { id, color, showing, onClick } = this.props;
+        const cardColor = showing ? color : Helper.Hidden_Color;
         return (
-            <div className="card-container" style={{
-                    backgroundColor: cardColor
-            }} onClick={() => state === 0? onClick(id):null}>
+            <div className="card-container" style={{backgroundColor: cardColor}} 
+                 onClick={() => onClick(id) }>
             </div>
         );
     }

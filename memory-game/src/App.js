@@ -1,30 +1,34 @@
 import React, { Component } from 'react';
 import './App.css';
 import Nav from './components/nav';
-import CardBoard from './components/cardBoard';
 import Helper from './globalHelper';
+import Card from './components/card';
+
+const CardState = {
+  HIDING: 0,
+  SHOWING: 1,
+  MATCHING: 2
+};
 
 class App extends Component {
   constructor(props) {
     super(props);
-
     const cards = this.generateCards();
-
     this.state = { cards };
     this.previousCard = null;
-
-    this.handleClicked = this.handleClicked.bind(this);
+    this.handleClick = this.handleClick.bind(this);
     this.handleNewGame = this.handleNewGame.bind(this);
   }
 
-  handleClicked(id) {
+  handleClick(id) {
+    console.log(id);
     //retrive card
     let card = this.state.cards.find((c) => (id === c.id));
 
     //if card is hidden now
     if (this.previousCard === null) {
       //open the card and record the previous card
-      card.state = 1;
+      card.state = CardState.SHOWING;
       this.previousCard = card;
       const cards = this.state.cards.map((c, i) => (
         c.id === card.id ? card : c
@@ -35,13 +39,14 @@ class App extends Component {
       let stateCard = null;
       //open the card and check the state
       if (card.color === this.previousCard.color) {
-        card.state = 1;
+        card.state = CardState.SHOWING;
         stateCard = card;
       }
       else {
-        this.previousCard.state = 0;
+        this.previousCard.state = CardState.HIDING;
         stateCard = this.previousCard;
       }
+
       const cards = this.state.cards.map((c, i) => (
         c.id === stateCard.id ? stateCard : c
       ));
@@ -57,17 +62,23 @@ class App extends Component {
   }
 
   render() {
+    const cards = this.state.cards.map((c, i) => {
+      return <Card 
+              key={c.id} 
+              id={c.id}
+              showing={c.state !== CardState.HIDING}
+              color={c.color}
+              onClick={this.handleClick}/>
+    });
     return (
       <div className="App">
-      <Nav onNewGame={this.handleNewGame}/>
-      <CardBoard cards={this.state.cards} onClick={this.handleClicked} />
+        <Nav onNewGame={this.handleNewGame}/>
+        {cards}
       </div>
     );
   }
 
-
   generateCards() {
-
     //pickup couple of random colors from default props.
     let colors = Array.apply(null, Array(Math.floor(Helper.Num_Card / 2)))
       .map((c, i) => ({
@@ -86,12 +97,14 @@ class App extends Component {
       if (colorObj.counter === 0) {
         colors.splice(randIdx, 1);
       }
+
       cards.push({
         id: i,
-        state: 0,
+        state: CardState.HIDING,
         color: colorObj.color
       });
     }
+    console.log(cards);
     return cards;
   }
 }
