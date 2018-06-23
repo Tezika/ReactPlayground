@@ -59,7 +59,7 @@ class App extends Component {
         card.state = CardState.SHOWING;
         updateCard(card);
         this.noClick = true;
-        //Set up a time to hide the two cards after 1.3 seconds.
+        //Set up a timer to hide the two cards after 1.3 seconds.
         setTimeout(() => {
           this.noClick = false;
           card.state = CardState.HIDING;
