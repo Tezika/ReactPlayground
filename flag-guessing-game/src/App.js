@@ -37,7 +37,6 @@ class App extends Component {
   handleSubmit(e) {
     e.preventDefault();
     if (this.state.gameState === GameState.GAMING) {
-      console.log(`Your choose is ${this.state.selectedOption} and the right answer is ${this.state.selectedCountry.name}`);
       this.state.selectedCountry.name === this.state.selectedOption ? this.setState({ gameState: GameState.WIN }):this.setState({ gameState: GameState.LOSE });
     }
     else {
